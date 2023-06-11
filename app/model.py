@@ -4,7 +4,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 
 class PostSchema(BaseModel):
-    id: str = Field(default_factory=str(uuid4))
+    id: str = Field(default_factory=lambda: uuid4())
     title: str = Field(default=None)
     content: str = Field(default=None)
 
