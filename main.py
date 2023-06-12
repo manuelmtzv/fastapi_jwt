@@ -1,7 +1,8 @@
 from uuid import uuid4
 
-from fastapi import Body, FastAPI
+from fastapi import Body, Depends, FastAPI
 
+from app.auth.jwt_bearer import jwtBearer
 from app.auth.jwt_handler import signJWT
 from app.data.posts import posts
 from app.data.users import users
@@ -33,7 +34,7 @@ def get_one_post(id: str):
 
 
 # 3. Add a post
-@app.post("/posts", tags=["posts"])
+@app.post("/posts", dependencies=[Depends(jwtBearer())], tags=["posts"])
 def add_post(post: PostSchema = Body(default=None)):
     post.id = uuid4()
     posts.append(post.dict())
